@@ -20,7 +20,6 @@ module.exports = function () {
     sequelize.authenticate().then(() => { }).catch(() => { });
 
     // Create Two (2) Tables/Collections for users and employees
-    
     // First Name, Last Name, Email ID, Password, a unique employeeID and Organization Name
     const Users = sequelize.define('users', {
         firstName: Sequelize.STRING,
@@ -28,11 +27,26 @@ module.exports = function () {
         emailId: {
             type: Sequelize.STRING,
             primaryKey: true
+        }
+    });
+
+    const Employees = sequelize.define('employees', {
+        emailId: {
+            type: Sequelize.STRING,
+            primaryKey: true
         },
         password: Sequelize.STRING,
-        employeeId: Sequelize.STRING,
+        employeeId: {
+            type: Sequelize.STRING,
+            unique: true
+        },
         organisationName: Sequelize.STRING
     });
 
-    return { models: { Users } }
+
+    User.hasOne(Employees, { foreignKey: 'employeeId' });
+    Employees.belongsTo(User);
+
+
+    return { models: { Users, Employees } }
 }

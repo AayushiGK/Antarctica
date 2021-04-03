@@ -5,7 +5,7 @@ module.exports = {
         mysql_password : 'root',
     },
     server: {
-        port: 3004
+        port: 3000
     },
     jwt: {
         token: "antartica",

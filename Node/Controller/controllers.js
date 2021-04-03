@@ -2,9 +2,7 @@ var app;
 const appRoot = require("app-root-path");
 module.exports = function (arrg) {
     app = startApp(arrg);
-    return {
-        app
-    };
+    return { app };
 };
 
 function startApp(arrg) {
@@ -44,19 +42,17 @@ function startApp(arrg) {
                 jwt.verify(token, arrg.config.jwt.token, (err, decoded) => {
                     if (err)
                         return res.status(403).end("Unauthorized");
-                    Users.findOne({ where: { 'user_email': decoded.id, 'user_disable': '0' } }).then(user => {
+                    Users.findOne({ where: { 'emailId': decoded.id } }).then(user => {
                         if (user == null)
                             return res.status(403).end("User Not found");
-                        userObject = user;
-                        req.data = {
-                            // Email: user.user_email.toString(),
-                            // role: userObject.user_role,
-                            // user_department: user.user_department,
-                            // user_designation: user.user_designation,
-                            // user_name: user.user_name,
-                            // user_wi: user.user_wi,
-                            // user_manager: user.user_manager,
-                        };
+                        else {
+                            req.data = {
+                                Email: user.emailId.toString(),
+                                firstName: user.firstName,
+                                lastName: user.lastName,
+                                employeeId: user.employeeId,
+                            };
+                        }
                         next();
                     });
                 });

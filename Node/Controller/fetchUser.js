@@ -1,12 +1,12 @@
 // Get all list of users with following criteria:
 // 1. Search using First Name, Last Name and employeeID
-// Users.findOne({ where: { user_email:  req.data.Email } })
+// Users.findAll({ where: { emailId: emailId } })
 
 // 2. Sort data by First Name, Last Name, Email ID, employeeID and Organization Name
-// Foo.findOne({ order: [ ['name'], ['username', 'DESC']]});
+// Users.findAll({ order: [ ['firstName'], ['lastName']});
 
 // 3. Add pagination to your API to filter the records
-// Project.findAll({ limit: 10 });
+// Users.findAll({ limit: 10 });
 
 const router = require("express").Router();
 const Sequelize = require('sequelize');
@@ -14,11 +14,12 @@ const Op = Sequelize.Op;
 module.exports = function (arrg) {
     var { Users } = arrg.models;
 
-    router.get(arrg.config.apiUrlInitial + "/fetchUsers", (req, res, next) => {
-        Users.findAll({}).then(users => {
+    router.get("/fetchUsers", (req, res, next) => {
+        var { firstName, lastName, emailId } = req.body;
+        Users.findAll({ where: { firstName, lastName, emailId } }, { limit: 20 }, { order: [['firstName'], ['lastName'], ['emailId'], ['employeeId'], ['organisationName']] }).then(users => {
             return res.send({ data: users });
         }).catch(() => {
-            return res.status(422).send({ header: "Error", content: "err-msg.NoData" });
+            return res.status(422).send({ header: "Error", content: "No Data Found" });
         });
     });
 
