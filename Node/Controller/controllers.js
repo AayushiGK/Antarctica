@@ -36,7 +36,7 @@ function startApp(arrg) {
     }
 
     app.use((req, res, next) => {
-        if ([arrg.config.apiUrlInitial].indexOf("/" + req.url.split("/")[1]) >= 0) {
+        if ((req.url.split("/")[1]) >= 0) {
             if (req.headers['x-auth']) {
                 const token = req.headers['x-auth'];
                 jwt.verify(token, arrg.config.jwt.token, (err, decoded) => {
@@ -57,7 +57,7 @@ function startApp(arrg) {
                     });
                 });
             } else {
-                if (['api', 'public'].indexOf(req.url.split("/")[2]) >= 0)
+                if ((req.url.split("/")[2]) >= 0)
                     next();
                 else
                     res.status(403).end();
