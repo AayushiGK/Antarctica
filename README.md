@@ -1,4 +1,4 @@
-# Antarctica - register User, login User & fetch UserData
+# Antarctica - register User, login User, Authenticate User & fetch UserData
 <!-- Included a readme file to explain folder structure, design, other decisions etc. -->
 
 --- index.js
